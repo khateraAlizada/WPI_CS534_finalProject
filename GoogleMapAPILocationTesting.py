@@ -7,12 +7,12 @@ def main():
     params = {
         'query': 'tourist attractions in Boston',
         'type': 'tourist_attraction',
-        'key': 'API_KEY_GOES_HERE'
+        'key': '0ec0b06b-4d2e-4eee-97c8-b1b67da57f4c'  # Sample API Key
     }
 
     # Send the API request and parse the response
     results = []
-    next_page_token = ''
+    next_page_token = ' '
     while len(results) < 100:
         response = requests.get(endpoint, params=params)
         data = response.json()
