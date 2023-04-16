@@ -29,14 +29,14 @@ def main():
     locations = [['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785], ['Boston Tea Party Ships & Museum', '306 Congress St, Boston, MA 02210, United States', 42.3521821, -71.0512911], ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]]
 
     # Print the name, address, and location of each attraction
-    for result in results[:100]:
+    for result in results:
         name = result['name']
         address = result['formatted_address']
         location = result['geometry']['location']
         lat, lng = location['lat'], location['lng']
-        print(f'{name}, {address}, ({lat}, {lng})')
+        # print(f'{name}, {address}, ({lat}, {lng})') TODO Commented out for now; prints the reformatted location from GMaps API result
 
-        locations.append([name, address, lng, lat])
+        locations.append([name, address, lat, lng])
 
     print(locations)
 
