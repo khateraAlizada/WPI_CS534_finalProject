@@ -8,7 +8,7 @@ def main():
     params = {
         'query': 'tourist attractions in Boston',
         'type': 'tourist_attraction',
-        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # Need to put API key here to work!!!
+        'key': ''  # Need to put API key here to work!!!
     }
 
     # Send the API request and parse the response
