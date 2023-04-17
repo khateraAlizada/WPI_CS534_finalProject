@@ -48,11 +48,11 @@ def a_star(start_attraction, end_attraction, attractions):
         current_attraction = min(to_explore, key=lambda x: x.total_cost())  # Select the lowest cost node from 'to_explore'
         to_explore.remove(current_attraction)
 
-        # End attraction has been found and all other attractions have been explored #TODO This probably needs to be adjusted
+        # End attraction has been found and all other attractions have been explored # TODO: This probably needs to be adjusted
         if current_attraction.name == end_attraction[0] and len(visited) == len(attractions):
             path = []
             while current_attraction:
-                path.append(current_attraction.name)
+                path.append(current_attraction.name)  # TODO: Needs to be changed to return all information later
                 current_attraction = current_attraction.parent
             return list(reversed(path))
 

@@ -34,7 +34,7 @@ def main():
         address = result['formatted_address']
         location = result['geometry']['location']
         lat, lng = location['lat'], location['lng']
-        print(f'{name}, {address}, ({lat}, {lng})')  # TODO Commented out for now; prints the reformatted location from GMaps API result
+        print(f'{name}, {address}, ({lat}, {lng})')  # TODO: Probably don't need this print statement in the future
 
         locations.append([name, address, lat, lng])
 
