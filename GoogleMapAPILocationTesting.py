@@ -34,11 +34,12 @@ def main():
         address = result['formatted_address']
         location = result['geometry']['location']
         lat, lng = location['lat'], location['lng']
-        # print(f'{name}, {address}, ({lat}, {lng})') TODO Commented out for now; prints the reformatted location from GMaps API result
+        print(f'{name}, {address}, ({lat}, {lng})')  # TODO Commented out for now; prints the reformatted location from GMaps API result
 
         locations.append([name, address, lat, lng])
 
-    print(locations)
+    for i in locations:
+        print(i)
 
     start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
     end_attraction = ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]
