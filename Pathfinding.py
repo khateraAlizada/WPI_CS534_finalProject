@@ -16,7 +16,7 @@ class Node:
 
 
 # Haversine Formula
-def distance_between_points(lat1, lon1, lat2, lon2):
+def haversine_distance(lat1, lon1, lat2, lon2):
     R = 6371.0  # radius of the Earth in kilometers
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 
@@ -29,17 +29,17 @@ def distance_between_points(lat1, lon1, lat2, lon2):
     return R * c
 
 
-def heuristic_cost_estimate(location, goal_location):
+def haversine_heuristic(location, goal_location):
     lat1 = float(location[2])
     lon1 = float(location[3])
     lat2 = float(goal_location[2])
     lon2 = float(goal_location[3])
 
-    return distance_between_points(lat1, lon1, lat2, lon2)
+    return haversine_distance(lat1, lon1, lat2, lon2)
 
 
 def a_star(start_attraction, end_attraction, attractions):
-    start_node = Node(start_attraction[0], start_attraction[2], start_attraction[3], 0, heuristic_cost_estimate(start_attraction, end_attraction))
+    start_node = Node(start_attraction[0], start_attraction[2], start_attraction[3], 0, haversine_heuristic(start_attraction, end_attraction))
     open_set = [start_node]  # Discovered nodes that still haven't been explored yet
     visited = []  # Visited nodes
 
@@ -60,8 +60,8 @@ def a_star(start_attraction, end_attraction, attractions):
             if attraction[0] == current_node.name or attraction in [node.name for node in visited]:
                 continue
 
-            cost = current_node.cost + distance_between_points(current_node.latitude, current_node.longitude, float(attraction[2]), float(attraction[3]))
-            heuristic = heuristic_cost_estimate(attraction, end_attraction)
+            cost = current_node.cost + haversine_distance(current_node.latitude, current_node.longitude, float(attraction[2]), float(attraction[3]))
+            heuristic = haversine_heuristic(attraction, end_attraction)
             new_node = Node(attraction[0], attraction[2], attraction[3], cost, heuristic, current_node)
 
             if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in open_set):
