@@ -40,12 +40,12 @@ def haversine_heuristic(location, goal_location):
 
 def a_star(start_attraction, end_attraction, attractions):
     start_node = Node(start_attraction[0], start_attraction[2], start_attraction[3], 0, haversine_heuristic(start_attraction, end_attraction))
-    open_set = [start_node]  # Discovered nodes that still haven't been explored yet
+    to_explore = [start_node]  # Discovered nodes that still haven't been explored yet
     visited = []  # Visited nodes
 
-    while open_set:
-        current_node = min(open_set, key=lambda x: x.total_cost())
-        open_set.remove(current_node)
+    while to_explore:
+        current_node = min(to_explore, key=lambda x: x.total_cost())
+        to_explore.remove(current_node)
 
         if current_node.name == end_attraction[0] and len(visited) == len(attractions):
             path = []
@@ -64,9 +64,9 @@ def a_star(start_attraction, end_attraction, attractions):
             heuristic = haversine_heuristic(attraction, end_attraction)
             new_node = Node(attraction[0], attraction[2], attraction[3], cost, heuristic, current_node)
 
-            if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in open_set):
+            if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in to_explore):
                 continue
 
-            open_set.append(new_node)
+            to_explore.append(new_node)
 
     return None
