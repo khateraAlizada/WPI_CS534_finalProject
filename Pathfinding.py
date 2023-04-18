@@ -41,15 +41,23 @@ def haversine_heuristic(location, goal_location):
 def a_star(start_attraction, end_attraction, attractions):
     start_node = Node(start_attraction[0], start_attraction[2], start_attraction[3], 0, haversine_heuristic(start_attraction, end_attraction))
     to_explore = [start_node]  # Discovered nodes that still haven't been explored yet
+
     visited = []  # Visited nodes
 
     # While there are still unexplored attractions
     while to_explore:
+        print("to explore at the beginning")
+        print([node.name for node in to_explore])
         current_attraction = min(to_explore, key=lambda x: x.total_cost())  # Select the lowest cost node from 'to_explore'
+        print("current attraction at the beginning")
+        print(current_attraction.name)
+        print("cost")
+        print(current_attraction.total_cost())
         to_explore.remove(current_attraction)
 
         # End attraction has been found and all other attractions have been explored # TODO: This probably needs to be adjusted
-        if current_attraction.name == end_attraction[0] and len(visited) == len(attractions):
+       # if current_attraction.name == end_attraction[0] and len(visited) == len(attractions):
+        if current_attraction.name == end_attraction[0]:
             path = []
             while current_attraction:
                 path.append(current_attraction.name)  # TODO: Needs to be changed to return all information later
@@ -61,18 +69,34 @@ def a_star(start_attraction, end_attraction, attractions):
         # Iterate over all other attractions
         for attraction in attractions:
             # Skip if it's the same as the current attraction
-            if attraction[0] == current_attraction.name or attraction in [node.name for node in visited]:
+            # print([node.name for node in visited])
+
+            if attraction[0] == current_attraction.name or attraction[0] in [node.name for node in visited]:
                 continue
+
 
             # Calculate cost heuristic from current attraction to the selected attraction, to the end attraction
             cost = current_attraction.cost + haversine_distance(current_attraction.latitude, current_attraction.longitude, float(attraction[2]), float(attraction[3]))
             heuristic = haversine_heuristic(attraction, end_attraction)
             new_node = Node(attraction[0], attraction[2], attraction[3], cost, heuristic, current_attraction)
 
+
             # Skip current attraction if it has been added to 'to_explore' already and if the existing node is cheaper
+            # if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in to_explore):
+            #     continue
+
+
             if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in to_explore):
                 continue
 
             to_explore.append(new_node)
+            # print("current attraction")
+            # print(current_attraction.name)
+            # print("attraction")
+            # print(attraction)
+            # print("toexplore")
+            # print([node.name for node in to_explore])
+            # print("visited")
+            # print([node.name for node in visited])
 
     return None

@@ -38,11 +38,13 @@ def main():
 
         locations.append([name, address, lat, lng])
 
-    for i in locations:
-        print(i)
+    # for i in locations:
+    #     print(i)
 
-    start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
+    #start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
+    start_attraction = ['Faneuil Hall Marketplace', 'Boston, MA 02109, United States', 42.360189, -71.0551145]
     end_attraction = ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]
+    #end_attraction = ['New England Aquarium', '1 Central Wharf, Boston, MA 02110, United States', 42.3592478, -71.0491475]
 
     path = Pathfinding.a_star(start_attraction, end_attraction, locations)
     print(path)
