@@ -8,7 +8,8 @@ def main():
     params = {
         'query': 'tourist attractions in Boston',
         'type': 'tourist_attraction',
-        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # Need to put API key here to work!!!
+        #'key': ''  # Need to put API key here to work!!!
+
     }
 
     # Send the API request and parse the response
@@ -24,9 +25,9 @@ def main():
         else:
             break
 
-    #locations = []
+    locations = []
 
-    locations = [['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785], ['Boston Tea Party Ships & Museum', '306 Congress St, Boston, MA 02210, United States', 42.3521821, -71.0512911], ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]]
+    #locations = [['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785], ['Boston Tea Party Ships & Museum', '306 Congress St, Boston, MA 02210, United States', 42.3521821, -71.0512911], ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178], ['Museum of Fine Arts', 'Boston, 465 Huntington Ave, Boston, MA 02115, United States', 42.339381, -71.094048]]
 
     # Print the name, address, and location of each attraction
     for result in results:
@@ -41,8 +42,8 @@ def main():
     # for i in locations:
     #     print(i)
 
-    #start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
-    start_attraction = ['Faneuil Hall Marketplace', 'Boston, MA 02109, United States', 42.360189, -71.0551145]
+    start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
+    #end_attraction = ['Faneuil Hall Marketplace', 'Boston, MA 02109, United States', 42.360189, -71.0551145]
     end_attraction = ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]
     #end_attraction = ['New England Aquarium', '1 Central Wharf, Boston, MA 02110, United States', 42.3592478, -71.0491475]
 

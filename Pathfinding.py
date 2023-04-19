@@ -52,11 +52,11 @@ def a_star(start_attraction, end_attraction, attractions):
         print("current attraction at the beginning")
         print(current_attraction.name)
         print("cost")
-        print(current_attraction.total_cost())
+        print(current_attraction.cost, current_attraction.heuristic,current_attraction.total_cost())
         to_explore.remove(current_attraction)
 
         # End attraction has been found and all other attractions have been explored # TODO: This probably needs to be adjusted
-       # if current_attraction.name == end_attraction[0] and len(visited) == len(attractions):
+        #if current_attraction.name == end_attraction[0] and len(visited) == len(attractions):
         if current_attraction.name == end_attraction[0]:
             path = []
             while current_attraction:
@@ -72,18 +72,22 @@ def a_star(start_attraction, end_attraction, attractions):
             # print([node.name for node in visited])
 
             if attraction[0] == current_attraction.name or attraction[0] in [node.name for node in visited]:
+            #if attraction[0] == current_attraction.name or attraction in [node for node in visited]:
                 continue
-
 
             # Calculate cost heuristic from current attraction to the selected attraction, to the end attraction
             cost = current_attraction.cost + haversine_distance(current_attraction.latitude, current_attraction.longitude, float(attraction[2]), float(attraction[3]))
             heuristic = haversine_heuristic(attraction, end_attraction)
             new_node = Node(attraction[0], attraction[2], attraction[3], cost, heuristic, current_attraction)
+            print("attraction name:")
+            print(attraction[0])
+            print("attraction cost + heuristics")
+            print(cost, heuristic, cost + heuristic )
 
 
             # Skip current attraction if it has been added to 'to_explore' already and if the existing node is cheaper
-            # if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in to_explore):
-            #     continue
+            if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in to_explore):
+                 continue
 
 
             if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in to_explore):
@@ -94,7 +98,7 @@ def a_star(start_attraction, end_attraction, attractions):
             # print(current_attraction.name)
             # print("attraction")
             # print(attraction)
-            # print("toexplore")
+            # print("to_explore")
             # print([node.name for node in to_explore])
             # print("visited")
             # print([node.name for node in visited])
