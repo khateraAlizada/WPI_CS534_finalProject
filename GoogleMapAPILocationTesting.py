@@ -10,6 +10,7 @@ def main():
         'type': 'tourist_attraction',
         #'key': ''  # Need to put API key here to work!!!
 
+
     }
 
     # Send the API request and parse the response
