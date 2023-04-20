@@ -8,7 +8,7 @@ import matplotlib
 matplotlib.use('Agg')
 
 
-def create_graph(attractions, num_clusters=5):
+def create_graph(attractions, num_clusters):
     # Extract Longitude/Latitude into a separate array
     coordinates = [[attraction[2], attraction[3]] for attraction in attractions]
 

@@ -10,7 +10,7 @@ def main():
     params = {
         'query': 'tourist attractions in Boston',
         'type': 'tourist_attraction',
-        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # Need to put API key here to work!!!
+        'key': ''  # Need to put API key here to work!!!
     }
 
     # Send the API request and parse the response
@@ -49,7 +49,7 @@ def main():
     path = Pathfinding.a_star(start_attraction, end_attraction, locations)
     print(path)
 
-    loc_graph = Graph.create_graph(locations)
+    loc_graph = Graph.create_graph(locations, 5)
 
     print(loc_graph)
 
