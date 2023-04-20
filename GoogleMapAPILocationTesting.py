@@ -1,4 +1,6 @@
 import requests
+
+import Graph
 import Pathfinding
 
 
@@ -8,9 +10,7 @@ def main():
     params = {
         'query': 'tourist attractions in Boston',
         'type': 'tourist_attraction',
-        #'key': ''  # Need to put API key here to work!!!
-
-
+        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # Need to put API key here to work!!!
     }
 
     # Send the API request and parse the response
@@ -28,7 +28,7 @@ def main():
 
     locations = []
 
-    #locations = [['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785], ['Boston Tea Party Ships & Museum', '306 Congress St, Boston, MA 02210, United States', 42.3521821, -71.0512911], ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178], ['Museum of Fine Arts', 'Boston, 465 Huntington Ave, Boston, MA 02115, United States', 42.339381, -71.094048]]
+    # locations = [['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785], ['Boston Tea Party Ships & Museum', '306 Congress St, Boston, MA 02210, United States', 42.3521821, -71.0512911], ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]]
 
     # Print the name, address, and location of each attraction
     for result in results:
@@ -36,20 +36,25 @@ def main():
         address = result['formatted_address']
         location = result['geometry']['location']
         lat, lng = location['lat'], location['lng']
-        print(f'{name}, {address}, ({lat}, {lng})')  # TODO: Probably don't need this print statement in the future
+        # print(f'{name}, {address}, ({lat}, {lng})')  # TODO: Probably don't need this print statement in the future
 
         locations.append([name, address, lat, lng])
 
-    # for i in locations:
-    #     print(i)
+    for i in locations:
+        print(i)
 
     start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
-    #end_attraction = ['Faneuil Hall Marketplace', 'Boston, MA 02109, United States', 42.360189, -71.0551145]
     end_attraction = ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]
-    #end_attraction = ['New England Aquarium', '1 Central Wharf, Boston, MA 02110, United States', 42.3592478, -71.0491475]
 
     path = Pathfinding.a_star(start_attraction, end_attraction, locations)
     print(path)
+
+    loc_graph = Graph.create_graph(locations)
+
+    print(loc_graph)
+
+    Graph.visualize_graph(loc_graph, save_path='graph.png')
+    Graph.print_clusters(loc_graph)
 
 
 if __name__ == "__main__":
