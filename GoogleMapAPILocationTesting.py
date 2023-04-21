@@ -10,7 +10,7 @@ def main():
     params = {
         'query': 'tourist attractions in Boston',
         'type': 'tourist_attraction',
-        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # Need to put API key here to work!!!
+        'key': ''  # Need to put API key here to work!!!
     }
 
     # Send the API request and parse the response
@@ -46,8 +46,8 @@ def main():
     start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
     end_attraction = ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]
 
-    path = Pathfinding.a_star(start_attraction, end_attraction, locations)
-    print(path)
+    #path = Pathfinding.a_star(start_attraction, end_attraction, locations)
+    #print(path)
 
     loc_graph = Graph.create_graph(locations, 5)
 
@@ -55,6 +55,9 @@ def main():
 
     Graph.visualize_graph(loc_graph, save_path='graph.png')
     Graph.print_clusters(loc_graph)
+
+    path = Pathfinding.a_star(loc_graph, start_attraction, end_attraction)
+    print(path)
 
 
 if __name__ == "__main__":
