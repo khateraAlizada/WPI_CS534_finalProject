@@ -45,16 +45,28 @@ def create_graph(attractions, num_clusters):
                 distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2], attraction2[3])
                 graph.add_edge(clusters[i], clusters[j], weight=distance)
 
-    # Add edges between the clusters themselves
+    # Add edges between the closest cities between nearby clusters
     for i in range(num_clusters):
         for j in range(i + 1, num_clusters):
-            distance = Pathfinding.haversine_distance(cluster_centers[i][0], cluster_centers[i][1], cluster_centers[j][0], cluster_centers[j][1])
-            graph.add_edge(i, j, weight=distance)
+            # Find the closest attraction in each cluster to the other cluster
+            min_distance = float('inf')
+            closest_attractions = None
+            for attraction1 in graph.nodes[i]['attractions']:
+                for attraction2 in graph.nodes[j]['attractions']:
+                    distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2],
+                                                              attraction2[3])
+                    if distance < min_distance:
+                        min_distance = distance
+                        closest_attractions = (attraction1, attraction2)
+
+            # Add an edge between the closest attractions
+            graph.add_edge(i, j, weight=min_distance, attraction1=closest_attractions[0], attraction2=closest_attractions[1])
 
     return graph
 
 
 # Debugging purposes: for getting a visual of the graph itself
+# TODO: Deprecated; have not adjusted it to try and show the edges between clusters
 def visualize_graph(graph, save_path=None):
     pos = {}
     labels = {}
@@ -106,7 +118,7 @@ def visualize_graph(graph, save_path=None):
 
     # Show plot
     plt.axis('off')
-    plt.show()  # TODO Note that this doesn't work if matlab plt uses 'Agg', which is needed to save the graph.png properly (doesn't really matter either way cause this is just for debugging)
+    # plt.show()  # TODO Note that this doesn't work if matlab plt uses 'Agg', which is needed to save the graph.png properly (doesn't really matter either way cause this is just for debugging)
 
     if save_path is not None:
         plt.gcf().set_size_inches(48, 32)
