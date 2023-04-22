@@ -10,7 +10,7 @@ def main():
     params = {
         'query': 'tourist attractions in London',  # TODO: Obtain the city from user input
         'type': 'tourist_attraction',
-        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # TODO: Need to put your own API key here for the program to work!!!
+        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
