@@ -10,7 +10,7 @@ def main():
     params = {
         'query': 'tourist attractions in London',  # TODO: Obtain the city from user input
         'type': 'tourist_attraction',
-        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
+        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
@@ -52,6 +52,7 @@ def main():
     start_attraction = locations[0]
     end_attraction = locations[5]
 
+    # TODO: Actual locations list should be whatever the user chooses from the full list of possible tourist attractions
     # Create a NetworkX Graph
     loc_graph = Graph.create_graph(locations)
 
@@ -63,6 +64,7 @@ def main():
     # Graph.visualize_graph(loc_graph, save_path='graph.png')
     # Graph.print_graph(loc_graph)
 
+    # TODO: Start and End attractions need to be from user input
     path = Pathfinding.a_star(start_attraction, end_attraction, loc_graph)
     print(path)  # TODO: Path will be used in later code to draw the path on an actual map
 
