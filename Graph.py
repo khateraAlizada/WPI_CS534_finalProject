@@ -5,9 +5,18 @@ import Pathfinding
 
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('Agg')
 
+matplotlib.use('Agg')  # Allows visualize_graph() to work properly
 
+"""Creates a graph with n clusters, given a list of tourist attractions.
+
+NetworkX is utilized to create the Graph, and KMeans clustering from sklean is used to create the clusters and group the attractions.
+
+:param attractions: The list of tourist attractions in a given city
+:param num_clusters: The number of clusters to separate the tourist attractions into; default is 5
+
+:returns: An NetworkX Graph representing the tourist attractions
+"""
 def create_graph(attractions, num_clusters=5):
     # Extract Longitude/Latitude into a separate array
     coordinates = [[attraction[2], attraction[3]] for attraction in attractions]
@@ -20,9 +29,10 @@ def create_graph(attractions, num_clusters=5):
     # Create a graph with nodes for each attraction
     graph = nx.Graph()
     for i in range(len(attractions)):
-        graph.add_node(i, attraction=attractions[i], location=(attractions[i][2], attractions[i][3]), cluster=clusters[i])
+        graph.add_node(i, attraction=attractions[i], location=(attractions[i][2], attractions[i][3]),
+                       cluster=clusters[i])
 
-    # Add respective attractions to their cluster
+    # Add respective attractions to their cluster # TODO: I think this is actually bugged out, but it's not currently breaking the code, so come back to this later
     for i in range(len(attractions)):
         # Create a list to store attractions in a given cluster if it hasn't already been created
         if 'attractions' not in graph.nodes[clusters[i]]:
@@ -36,7 +46,8 @@ def create_graph(attractions, num_clusters=5):
             if clusters[i] == clusters[j]:
                 attraction1 = attractions[i]
                 attraction2 = attractions[j]
-                distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2], attraction2[3])
+                distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2],
+                                                          attraction2[3])
                 graph.add_edge(i, j, weight=distance)
 
     # Keep track of which attractions have already been connected to another cluster
@@ -52,7 +63,8 @@ def create_graph(attractions, num_clusters=5):
                 attraction1 = attractions[attraction1_id]
                 for attraction2_id in graph.nodes[j]['attractions']:
                     attraction2 = attractions[attraction2_id]
-                    distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2], attraction2[3])
+                    distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2],
+                                                              attraction2[3])
                     if distance < min_distance:
                         min_distance = distance
                         closest_attractions = (attraction1_id, attraction2_id)
@@ -66,7 +78,13 @@ def create_graph(attractions, num_clusters=5):
     return graph
 
 
-# Debugging purposes: for getting a visual of the graph itself
+"""Draws a graph. Mainly used for debugging purposes.
+
+:param graph: The graph to be drawn
+:param save_path: The location to save the graph at; defaults to none
+
+:returns: void
+"""
 def visualize_graph(graph, save_path=None):
     pos = {}
     labels = {}
@@ -106,16 +124,22 @@ def visualize_graph(graph, save_path=None):
         plt.show()
 
 
+"""Outputs each node and its neighbors, as well as all edges. Mainly used for debugging purposes.
 
-# Debugging purposes: for seeing the actual attractions in each resulting cluster
-def print_clusters(graph):
+:param graph: The graph to be printed
+
+:returns: void
+"""
+def print_graph(graph):
     # Print all nodes and their attributes
     print("Nodes:")
     for node, attributes in graph.nodes(data=True):
         print(f"Node {node}: {attributes}")
 
+        # Print neighbors of the node
+        print(f"Neighbors: {list(graph.neighbors(node))}")
+
     # Print all edges and their attributes
     print("Edges:")
     for edge in graph.edges(data=True):
         print(f"Edge {edge[0]} - {edge[1]}: {edge[2]}")
-
