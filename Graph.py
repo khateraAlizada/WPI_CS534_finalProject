@@ -8,7 +8,7 @@ import matplotlib
 matplotlib.use('Agg')
 
 
-def create_graph(attractions, num_clusters):
+def create_graph(attractions, num_clusters=5):
     # Extract Longitude/Latitude into a separate array
     coordinates = [[attraction[2], attraction[3]] for attraction in attractions]
 
@@ -17,24 +17,18 @@ def create_graph(attractions, num_clusters):
     cluster_centers = kmeans.cluster_centers_
     clusters = kmeans.labels_
 
-    # Create a graph with nodes for each cluster
+    # Create a graph with nodes for each attraction
     graph = nx.Graph()
-    for i in range(num_clusters):
-        graph.add_node(i, location=cluster_centers[i], cluster=i)
+    for i in range(len(attractions)):
+        graph.add_node(i, attraction=attractions[i], location=(attractions[i][2], attractions[i][3]), cluster=clusters[i])
 
     # Add respective attractions to their cluster
     for i in range(len(attractions)):
-        # Get the Haversine Distances from a given attraction to all other clusters
-        distances = [Pathfinding.haversine_distance(attractions[i][2], attractions[i][3], cluster_centers[j][0], cluster_centers[j][1]) for j in range(num_clusters)]
-
-        # Determine the cluster it's a part of (aka the closest cluster)
-        closest_cluster = min(range(num_clusters), key=lambda j: distances[j])
-
         # Create a list to store attractions in a given cluster if it hasn't already been created
-        if 'attractions' not in graph.nodes[closest_cluster]:
-            graph.nodes[closest_cluster]['attractions'] = []
+        if 'attractions' not in graph.nodes[clusters[i]]:
+            graph.nodes[clusters[i]]['attractions'] = []
 
-        graph.nodes[closest_cluster]['attractions'].append(attractions[i])
+        graph.nodes[clusters[i]]['attractions'].append(i)
 
     # Add edges between attractions in the same cluster
     for i in range(len(attractions)):
@@ -43,74 +37,61 @@ def create_graph(attractions, num_clusters):
                 attraction1 = attractions[i]
                 attraction2 = attractions[j]
                 distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2], attraction2[3])
-                graph.add_edge(clusters[i], clusters[j], weight=distance)
+                graph.add_edge(i, j, weight=distance)
 
-    # Add edges between the closest cities between nearby clusters
+    # Keep track of which attractions have already been connected to another cluster
+    already_connected = []
+
+    # Add edges between the closest attractions between nearby clusters
     for i in range(num_clusters):
         for j in range(i + 1, num_clusters):
             # Find the closest attraction in each cluster to the other cluster
             min_distance = float('inf')
             closest_attractions = None
-            for attraction1 in graph.nodes[i]['attractions']:
-                for attraction2 in graph.nodes[j]['attractions']:
-                    distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2],
-                                                              attraction2[3])
+            for attraction1_id in graph.nodes[i]['attractions']:
+                attraction1 = attractions[attraction1_id]
+                for attraction2_id in graph.nodes[j]['attractions']:
+                    attraction2 = attractions[attraction2_id]
+                    distance = Pathfinding.haversine_distance(attraction1[2], attraction1[3], attraction2[2], attraction2[3])
                     if distance < min_distance:
                         min_distance = distance
-                        closest_attractions = (attraction1, attraction2)
+                        closest_attractions = (attraction1_id, attraction2_id)
 
             # Add an edge between the closest attractions
-            graph.add_edge(i, j, weight=min_distance, attraction1=closest_attractions[0], attraction2=closest_attractions[1])
+            if closest_attractions[0] not in already_connected or closest_attractions[1] not in already_connected:
+                graph.add_edge(closest_attractions[0], closest_attractions[1], weight=min_distance)
+                already_connected.append(closest_attractions[0])
+                already_connected.append(closest_attractions[1])
 
     return graph
 
 
 # Debugging purposes: for getting a visual of the graph itself
-# TODO: Deprecated; have not adjusted it to try and show the edges between clusters
 def visualize_graph(graph, save_path=None):
     pos = {}
     labels = {}
 
-    # Add positions and labels for cluster nodes
-    for node in graph.nodes:
-        pos[node] = graph.nodes[node]['location']
-        labels[node] = f'Cluster {node}'
-
     # Add positions and labels for attraction nodes
     for node in graph.nodes:
-        if 'attractions' in graph.nodes[node]:
-            attractions = graph.nodes[node]['attractions']
-            for i, attraction in enumerate(attractions):
-                pos[f'{node}.{i}'] = (attraction[3], attraction[2])  # Flip coordinates for proper display
-                labels[f'{node}.{i}'] = f'{attraction[0]}'
-
-    # Draw edges between clusters
-    cluster_edges = [(u, v) for u, v in graph.edges if
-                     'attractions' not in graph.nodes[u] or 'attractions' not in graph.nodes[v]]
-    cluster_edges = [(u, v) for u, v in graph.edges if
-                     ('attractions' not in graph.nodes[u] and 'attractions' not in graph.nodes[v])
-                     or ('attractions' in graph.nodes[u] and 'attractions' not in graph.nodes[v])
-                     or ('attractions' not in graph.nodes[u] and 'attractions' in graph.nodes[v])]
-
-    nx.draw_networkx_edges(graph, pos, edgelist=cluster_edges)
+        attraction = graph.nodes[node]['attraction']
+        pos[node] = (attraction[3], attraction[2])  # Flip coordinates for proper display
+        labels[node] = f'{attraction[0]} (Cluster {graph.nodes[node]["cluster"]})'
 
     # Draw edges between attractions within each cluster
+    attraction_edges = []
     for node in graph.nodes:
-        if 'attractions' in graph.nodes[node]:
-            attractions = graph.nodes[node]['attractions']
-            attraction_edges = [(f'{node}.{i}', f'{node}.{j}') for i in range(len(attractions)) for j in
-                                range(i + 1, len(attractions))]
-            nx.draw_networkx_edges(graph, pos, edgelist=attraction_edges)
+        for neighbor in graph.neighbors(node):
+            if neighbor > node:
+                attraction_edges.append((node, neighbor))
 
-    # Draw nodes for clusters and attractions
-    nx.draw_networkx_nodes(graph, pos,
-                           nodelist=[node for node in graph.nodes if 'attractions' not in graph.nodes[node]],
-                           node_color='b')
-    nx.draw_networkx_nodes(graph, pos,
-                           nodelist=[f'{node}.{i}' for node in graph.nodes if 'attractions' in graph.nodes[node] for i
-                                     in range(len(graph.nodes[node]['attractions']))], node_color='r', node_size=50)
+    nx.draw_networkx_edges(graph, pos, edgelist=attraction_edges)
 
-    # Add labels for clusters and attractions
+    # Draw nodes for attractions
+    node_colors = [graph.nodes[node]['cluster'] for node in graph.nodes]
+    cmap = plt.get_cmap('viridis', len(set(node_colors)))
+    nx.draw_networkx_nodes(graph, pos, node_color=node_colors, node_size=50, cmap=cmap)
+
+    # Add labels for attractions
     nx.draw_networkx_labels(graph, pos, labels=labels)
 
     # Set the size of the figure
@@ -118,24 +99,23 @@ def visualize_graph(graph, save_path=None):
 
     # Show plot
     plt.axis('off')
-    # plt.show()  # TODO Note that this doesn't work if matlab plt uses 'Agg', which is needed to save the graph.png properly (doesn't really matter either way cause this is just for debugging)
 
     if save_path is not None:
-        plt.gcf().set_size_inches(48, 32)
-        plt.savefig(save_path, bbox_inches='tight')
+        plt.savefig(save_path)
+    else:
+        plt.show()
+
 
 
 # Debugging purposes: for seeing the actual attractions in each resulting cluster
 def print_clusters(graph):
-    clusters = set(nx.get_node_attributes(graph, 'cluster').values())
-    for cluster in clusters:
-        print("Cluster " + str(cluster) + ": ")
+    # Print all nodes and their attributes
+    print("Nodes:")
+    for node, attributes in graph.nodes(data=True):
+        print(f"Node {node}: {attributes}")
 
-        nodes = [n for n, d in graph.nodes(data=True) if d['cluster'] == cluster]
-        attractions = []
-        for node in nodes:
-            attractions += graph.nodes[node]['attractions']
-        print("Attractions: " + str(attractions))
+    # Print all edges and their attributes
+    print("Edges:")
+    for edge in graph.edges(data=True):
+        print(f"Edge {edge[0]} - {edge[1]}: {edge[2]}")
 
-        edges = [e for e in graph.edges() if e[0] in nodes and e[1] in nodes]
-        print(f"Edges: {edges}")

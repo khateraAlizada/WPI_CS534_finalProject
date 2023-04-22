@@ -1,3 +1,4 @@
+import networkx as nx
 import requests
 
 import Graph
@@ -10,7 +11,7 @@ def main():
     params = {
         'query': 'tourist attractions in Boston',
         'type': 'tourist_attraction',
-        'key': ''  # Need to put API key here to work!!!
+        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # Need to put API key here to work!!!
     }
 
     # Send the API request and parse the response
@@ -38,25 +39,24 @@ def main():
         lat, lng = location['lat'], location['lng']
         # print(f'{name}, {address}, ({lat}, {lng})')  # TODO: Probably don't need this print statement in the future
 
-        locations.append([name, address, lat, lng])
+        locations.append((name, address, lat, lng))  # TODO: Changed to tuple, instead of list
 
     for i in locations:
         print(i)
 
-    start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
-    end_attraction = ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]
+    start_attraction = ('Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785)
+    end_attraction = ('Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178)
 
-    #path = Pathfinding.a_star(start_attraction, end_attraction, locations)
-    #print(path)
+    loc_graph = Graph.create_graph(locations)
 
-    loc_graph = Graph.create_graph(locations, 5)
-
-    print(loc_graph)
+    # print(loc_graph)
+    print("Is it connected?")  # TODO: Debugging statement to check that resulting graph is a connected graph
+    print(nx.is_connected(loc_graph))
 
     Graph.visualize_graph(loc_graph, save_path='graph.png')
     Graph.print_clusters(loc_graph)
 
-    path = Pathfinding.a_star(loc_graph, start_attraction, end_attraction)
+    path = Pathfinding.a_star(start_attraction, end_attraction, loc_graph)
     print(path)
 
 
