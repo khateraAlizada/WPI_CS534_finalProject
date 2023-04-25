@@ -15,7 +15,7 @@ def main():
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # TODO: Need to put your own API key here for the program to work!!!
+        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
@@ -46,29 +46,32 @@ def main():
     # Prints out all tourist attractions that were found for the user's desired city
     print_attractions(attractions, chosen_city)
 
-    # TODO: Figure out how to break out of this while loop once a valid start_attraction has been found; same applies for end_attraction
-    # TODO: Set start_attraction to be the value in attractions that matches it
     while True:
-        start_attraction = input("Choose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
+        start_attraction = input("\nChoose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
         input_result = valid_input(attractions, start_attraction)
 
         if input_result == 1:
             print_attractions(attractions, chosen_city)
-            break
-        elif input_result == 0:
-            print("Couldn't not find the start attraction. Please try again (enter !attractions to bring up the list of attractions again): ")
-
-    while True:
-        end_attraction = input("Choose an attraction that you want to end your route at (enter !attractions to bring up the list of attractions again): ")
-        input_result = valid_input(attractions, end_attraction)
-
-        if input_result != 0 and input_result == 1:
-            print_attractions(attractions, chosen_city)
+        elif input_result == 2:
+            start_attraction = find_attraction(attractions, start_attraction)
             break
         else:
-            print("Couldn't not find the end attraction. Please try again (enter !attractions to bring up the list of attractions again): ")
+            print("Couldn't not find the start attraction. Please try again.\n")
+
+    while True:
+        end_attraction = input("\nChoose an attraction that you want to end your route at (enter !attractions to bring up the list of attractions again): ")
+        input_result = valid_input(attractions, end_attraction)
+
+        if input_result == 1:
+            print_attractions(attractions, chosen_city)
+        elif input_result == 2:
+            end_attraction = find_attraction(attractions, end_attraction)
+            break
+        else:
+            print("Couldn't not find the end attraction. Please try again.\n")
 
     # TODO: Actual attractions list should be whatever the user chooses from the full list of possible tourist attractions
+    # TODO: !all if they want to add all attractions?
     # Create a NetworkX Graph
     loc_graph = Graph.create_graph(attractions)
 
@@ -105,6 +108,12 @@ def valid_input(attractions, input_message):  # TODO: Might be overcomplicating 
         return 2
     return 0
 
+
+def find_attraction(attractions, target_attraction):  # TODO: Could be merged with valid_attraction()?
+    for attraction in attractions:
+        if attraction[0] == target_attraction:
+            return attraction
+    return None
 
 if __name__ == "__main__":
     main()
