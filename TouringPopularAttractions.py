@@ -5,7 +5,7 @@ import Pathfinding
 
 
 def main():
-    print("Welcome to the Touring Popular Tourist Attractions application!")
+    print("\nWelcome to the Touring Popular Tourist Attractions application!\n")
     # TODO: Add more output giving description of the application
 
     chosen_city = input("Please enter the desired city: ")  # TODO: Add error handling for wrong input types
@@ -15,7 +15,7 @@ def main():
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # TODO: Need to put your own API key here for the program to work!!!
+        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
