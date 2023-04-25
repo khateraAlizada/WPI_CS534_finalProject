@@ -15,7 +15,8 @@ def main():
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
+        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'
+        # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
@@ -48,38 +49,51 @@ def main():
 
     while True:
         start_attraction = input("\nChoose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
-        input_result = valid_input(attractions, start_attraction)
 
-        if input_result == 1:
+        if start_attraction == "!attractions":
             print_attractions(attractions, chosen_city)
-        elif input_result == 2:
+
+        if valid_attraction(attractions, start_attraction):
             start_attraction = find_attraction(attractions, start_attraction)
             break
         else:
-            print("Couldn't not find the start attraction. Please try again.\n")
+            print("Couldn't not find the end attraction. Please try again.\n")
 
     while True:
         end_attraction = input("\nChoose an attraction that you want to end your route at (enter !attractions to bring up the list of attractions again): ")
-        input_result = valid_input(attractions, end_attraction)
 
-        if input_result == 1:
+        if end_attraction == "!attractions":
             print_attractions(attractions, chosen_city)
-        elif input_result == 2:
+
+        if valid_attraction(attractions, end_attraction):
             end_attraction = find_attraction(attractions, end_attraction)
             break
         else:
             print("Couldn't not find the end attraction. Please try again.\n")
 
+    chosen_attractions = []
+
     # TODO: Actual attractions list should be whatever the user chooses from the full list of possible tourist attractions
     # TODO: !all if they want to add all attractions?
+    chosen_attraction = input("Next, enter the attractions that interest you. (type !all to select all attractions, and !attractions to bring up the list of attractions again): ")
+
+    while chosen_attraction != "!done":  # TODO: Keep going until end input is detected
+        if start_attraction == "!attractions":
+            print_attractions(attractions, chosen_city)
+
+        if valid_attraction(attractions, chosen_attraction):
+            chosen_attractions.append(find_attraction(attractions, chosen_attraction))
+
+        break
+
     # Create a NetworkX Graph
     loc_graph = Graph.create_graph(attractions)
 
-    # TODO: Can be deleted; only for testing purposes
+    # Testing if the resulting graph is a connected graph
     # print("Is it connected?")
     # print(nx.is_connected(loc_graph))
 
-    # TODO: Can be deleted; only for testing purposes
+    # Helper functions for visualizing the resulting attraction graph
     # Graph.visualize_graph(loc_graph, save_path='graph.png')
     # Graph.print_graph(loc_graph)
 
@@ -94,26 +108,23 @@ def print_attractions(attractions, chosen_city):
         print(f"{attraction[0]}, Address: {attraction[1]}")
 
 
-def valid_attraction(attractions, target_attraction):  # TODO: This is not actually mapping the proper input and attraction
+def print_chosen_attractions(start_attraction, end_attraction, chosen_attractions):
+    print("To be implemented!")
+
+
+def valid_attraction(attractions, target_attraction):
     for attraction in attractions:
         if attraction[0] == target_attraction:
             return True
     return False
 
 
-def valid_input(attractions, input_message):  # TODO: Might be overcomplicating with the 3 different results
-    if input_message.startswith("!"):
-        return 1
-    elif valid_attraction(attractions, input_message):
-        return 2
-    return 0
-
-
-def find_attraction(attractions, target_attraction):  # TODO: Could be merged with valid_attraction()?
+def find_attraction(attractions, target_attraction):
     for attraction in attractions:
         if attraction[0] == target_attraction:
             return attraction
     return None
+
 
 if __name__ == "__main__":
     main()
