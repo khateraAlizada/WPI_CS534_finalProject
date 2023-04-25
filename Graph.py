@@ -29,8 +29,7 @@ def create_graph(attractions, num_clusters=5):
     # Create a graph with nodes for each attraction
     graph = nx.Graph()
     for i in range(len(attractions)):
-        graph.add_node(i, attraction=attractions[i], location=(attractions[i][2], attractions[i][3]),
-                       cluster=clusters[i])
+        graph.add_node(i, attraction=attractions[i], location=(attractions[i][2], attractions[i][3]), cluster=clusters[i])
 
     # Add respective attractions to their cluster # TODO: I think this is actually bugged out, but it's not currently breaking the code, so come back to this later
     for i in range(len(attractions)):
