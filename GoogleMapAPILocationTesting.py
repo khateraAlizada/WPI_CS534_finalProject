@@ -47,7 +47,7 @@ def main():
     print_attractions(attractions, chosen_city)
 
     # TODO: Figure out how to break out of this while loop once a valid start_attraction has been found; same applies for end_attraction
-    # TODO: Set start_attraction to be the value in attractions that mataches it
+    # TODO: Set start_attraction to be the value in attractions that matches it
     while True:
         start_attraction = input("Choose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
         input_result = valid_input(attractions, start_attraction)
