@@ -15,7 +15,7 @@ def main():
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
+        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
@@ -85,7 +85,7 @@ def main():
         elif chosen_attraction == "!list":
             print_chosen_attractions(start_attraction, end_attraction, chosen_attractions)
         elif valid_attraction(attractions, chosen_attraction):
-            chosen_attractions.append(find_attraction(attractions, chosen_attraction))
+            chosen_attractions.append(find_attraction(attractions, chosen_attraction))  # TODO: Need to add check that it isn't the selected start/end attraction
         else:
             print("Valid input not detected. Try again!")
 
@@ -104,6 +104,13 @@ def main():
     print(path)  # TODO: Path will be used in later code to draw the path on an actual map
 
 
+"""Prints all the tourist attractions for a given city.
+
+:param attractions: the complete list of attractions
+:param chosen_city: the city chosen by the user
+
+:returns: void
+"""
 def print_attractions(attractions, chosen_city):
     print(f"Showing all tourist attractions for: {chosen_city}\n")
 
@@ -111,6 +118,14 @@ def print_attractions(attractions, chosen_city):
         print(f"{attraction[0]}, Address: {attraction[1]}")
 
 
+"""Prints all the other selected tourist attractions that the user is interested in.
+
+:param start_attraction: the chosen start attraction
+:param end_attraction: the chosen end attraction
+:param chosen_attractions: the other attractions currently chosen
+
+:returns: void
+"""
 def print_chosen_attractions(start_attraction, end_attraction, chosen_attractions):
     print(f"\nChosen start attraction: {start_attraction[0]}")
     print(f"Chosen end attraction: {end_attraction[0]}\n")
@@ -120,14 +135,28 @@ def print_chosen_attractions(start_attraction, end_attraction, chosen_attraction
         print(f"{attraction[0]}")
 
 
-def valid_attraction(attractions, target_attraction):
+"""Checks if an inputted attraction actually exists for a given city.
+
+:param attractions: the complete list of attractions
+:param target_attraction: the attraction inputted by the user
+
+:returns: boolean representing if a matching attraction was found
+"""
+def valid_attraction(attractions, target_attraction):  # TODO: Could be merged with find_attraction()
     for attraction in attractions:
         if attraction[0] == target_attraction:
             return True
     return False
 
 
-def find_attraction(attractions, target_attraction):
+"""Returns the attraction tuple object from the list of all attractions.
+
+:param attractions: the complete list of attractions
+:param target_attraction: the attraction inputted by the user
+
+:returns: the matching attraction tuple, or None
+"""
+def find_attraction(attractions, target_attraction):  # TODO: Could be merged with valid_attraction()
     for attraction in attractions:
         if attraction[0] == target_attraction:
             return attraction
