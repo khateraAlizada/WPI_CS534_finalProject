@@ -46,26 +46,27 @@ def main():
     # Prints out all tourist attractions that were found for the user's desired city
     print_attractions(attractions, chosen_city)
 
-    # TODO: Add error handling if a given city cannot be found
+    # TODO: Figure out how to break out of this while loop once a valid start_attraction has been found; same applies for end_attraction
+    # TODO: Set start_attraction to be the value in attractions that mataches it
     while True:
         start_attraction = input("Choose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
         input_result = valid_input(attractions, start_attraction)
 
-        if input_result != 0 and input_result == 1:
+        if input_result == 1:
             print_attractions(attractions, chosen_city)
             break
-        else:
+        elif input_result == 0:
             print("Couldn't not find the start attraction. Please try again (enter !attractions to bring up the list of attractions again): ")
 
     while True:
-        end_attraction = input("Choose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
+        end_attraction = input("Choose an attraction that you want to end your route at (enter !attractions to bring up the list of attractions again): ")
         input_result = valid_input(attractions, end_attraction)
 
         if input_result != 0 and input_result == 1:
             print_attractions(attractions, chosen_city)
             break
         else:
-            print("Couldn't not find the start attraction. Please try again (enter !attractions to bring up the list of attractions again): ")
+            print("Couldn't not find the end attraction. Please try again (enter !attractions to bring up the list of attractions again): ")
 
     # TODO: Actual attractions list should be whatever the user chooses from the full list of possible tourist attractions
     # Create a NetworkX Graph
