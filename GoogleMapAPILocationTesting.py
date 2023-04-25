@@ -15,8 +15,7 @@ def main():
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'
-        # TODO: Need to put your own API key here for the program to work!!!
+        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
@@ -52,42 +51,46 @@ def main():
 
         if start_attraction == "!attractions":
             print_attractions(attractions, chosen_city)
+            continue
 
         if valid_attraction(attractions, start_attraction):
             start_attraction = find_attraction(attractions, start_attraction)
             break
         else:
-            print("Couldn't not find the end attraction. Please try again.\n")
+            print("Couldn't not find the end attraction. Please try again.")
 
     while True:
         end_attraction = input("\nChoose an attraction that you want to end your route at (enter !attractions to bring up the list of attractions again): ")
 
         if end_attraction == "!attractions":
             print_attractions(attractions, chosen_city)
+            continue
 
         if valid_attraction(attractions, end_attraction):
             end_attraction = find_attraction(attractions, end_attraction)
             break
         else:
-            print("Couldn't not find the end attraction. Please try again.\n")
+            print("Couldn't not find the end attraction. Please try again.")
 
     chosen_attractions = []
 
-    # TODO: Actual attractions list should be whatever the user chooses from the full list of possible tourist attractions
-    # TODO: !all if they want to add all attractions?
-    chosen_attraction = input("Next, enter the attractions that interest you. (type !all to select all attractions, and !attractions to bring up the list of attractions again): ")
+    chosen_attraction = input("Next, enter the attractions that interest you. (type !all to select all attractions, and !attractions to bring up the list of attractions again. Type !done to finish): ")
 
-    while chosen_attraction != "!done":  # TODO: Keep going until end input is detected
-        if start_attraction == "!attractions":
+    while chosen_attraction != "!done":
+        if chosen_attraction == "!attractions":
             print_attractions(attractions, chosen_city)
-
-        if valid_attraction(attractions, chosen_attraction):
+        elif chosen_attraction == "!all":
+            chosen_attractions = attractions
+            break  # Break out since there's nothing more to add
+        elif chosen_attraction == "!list":
+            print_chosen_attractions(start_attraction, end_attraction, chosen_attractions)
+        elif valid_attraction(attractions, chosen_attraction):
             chosen_attractions.append(find_attraction(attractions, chosen_attraction))
-
-        break
+        else:
+            print("Valid input not detected. Try again!")
 
     # Create a NetworkX Graph
-    loc_graph = Graph.create_graph(attractions)
+    loc_graph = Graph.create_graph(chosen_attractions)
 
     # Testing if the resulting graph is a connected graph
     # print("Is it connected?")
@@ -109,7 +112,12 @@ def print_attractions(attractions, chosen_city):
 
 
 def print_chosen_attractions(start_attraction, end_attraction, chosen_attractions):
-    print("To be implemented!")
+    print(f"\nChosen start attraction: {start_attraction[0]}")
+    print(f"Chosen end attraction: {end_attraction[0]}\n")
+
+    print("Other interested attractions: ")
+    for attraction in chosen_attractions:
+        print(f"{attraction[0]}")
 
 
 def valid_attraction(attractions, target_attraction):
