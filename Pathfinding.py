@@ -1,9 +1,12 @@
+import heapq
 from math import radians, sin, cos, sqrt, atan2
 
 
-# Represents a tourist attraction location
-class Node:
-    def __init__(self, name, latitude, longitude, cost, heuristic, parent=None):
+"""Represents a tourist attraction.
+"""
+class Attraction:
+    def __init__(self, attraction, name, latitude, longitude, cost, heuristic, parent=None):
+        self.attraction = attraction
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
@@ -11,11 +14,27 @@ class Node:
         self.heuristic = heuristic
         self.parent = parent
 
+    """Represents the A* heuristic of f(n) = g(n) + h(n), where g(n) is the cost from the start attraction to a given
+       attraction, and h(n) represents the estimated heuristic from the given attraction to the end attraction.
+    """
     def total_cost(self):
         return self.cost + self.heuristic
 
+    """Custom definition to implement the functionality of the "<" operator on the Attraction class.
+    """
+    def __lt__(self, other):
+        return self.total_cost() < other.total_cost()
 
-# Haversine Formula
+
+"""Represents the Haversine Distance between two attractions.
+
+:param lat1: The latitude value of the first attraction
+:param lon2: The longitude value of the first attraction
+:param lat2: The latitude value of the second attraction
+:param lon2: The longitude value of the second attraction
+
+:returns: The Haversine Distance between the two attractions (in km)
+"""
 def haversine_distance(lat1, lon1, lat2, lon2):
     R = 6371.0  # radius of the Earth in kilometers
     lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
@@ -29,78 +48,59 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     return R * c
 
 
-def haversine_heuristic(location, goal_location):
-    lat1 = float(location[2])
-    lon1 = float(location[3])
-    lat2 = float(goal_location[2])
-    lon2 = float(goal_location[3])
+"""Performs the A* algorithm search to find a path from a start attraction to an end attraction, through a graph of other tourist attractions.
 
-    return haversine_distance(lat1, lon1, lat2, lon2)
+:param start_attraction: The attraction to start at
+:param end_attraction: The attraction to end at
+:param graph: A NetworkX Graph representing all possible tourist attractions
 
+:returns: An optimal path from the start to end attraction
+"""
+def a_star(start_attraction, end_attraction, graph):
+    # Convert the start and end attraction into equivalent Attraction class objects
+    start_node = Attraction(start_attraction, start_attraction[0], start_attraction[2], start_attraction[3], 0, haversine_distance(start_attraction[2], start_attraction[3], end_attraction[2], end_attraction[3]))
+    end_node = Attraction(end_attraction, end_attraction[0], end_attraction[2], end_attraction[3], 0, 0)
 
-def a_star(start_attraction, end_attraction, attractions):
-    start_node = Node(start_attraction[0], start_attraction[2], start_attraction[3], 0, haversine_heuristic(start_attraction, end_attraction))
-    to_explore = [start_node]  # Discovered nodes that still haven't been explored yet
+    # Represents a priority queue of (total path cost, current tourist attraction, current optimal path)
+    paths_list = [(start_node.total_cost(), start_node, [start_node.attraction])]
 
-    visited = []  # Visited nodes
+    # Keep track of already visited tourist attractions
+    visited = set()
 
-    # While there are still unexplored attractions
-    while to_explore:
-        print("to explore at the beginning")
-        print([node.name for node in to_explore])
-        current_attraction = min(to_explore, key=lambda x: x.total_cost())  # Select the lowest cost node from 'to_explore'
-        print("current attraction at the beginning")
-        print(current_attraction.name)
-        print("cost")
-        print(current_attraction.cost, current_attraction.heuristic,current_attraction.total_cost())
-        to_explore.remove(current_attraction)
+    while paths_list:
+        # Get the lowest weighted path
+        (total_cost, current_node, path) = heapq.heappop(paths_list)
 
-        # End attraction has been found and all other attractions have been explored # TODO: This probably needs to be adjusted
-        #if current_attraction.name == end_attraction[0] and len(visited) == len(attractions):
-        if current_attraction.name == end_attraction[0]:
-            path = []
-            while current_attraction:
-                path.append(current_attraction.name)  # TODO: Needs to be changed to return all information later
-                current_attraction = current_attraction.parent
-            return list(reversed(path))
+        # Return the resulting optimal path
+        if current_node.latitude == end_node.latitude and current_node.longitude == end_node.longitude:
+            return path
 
-        visited.append(current_attraction)
+        # Add the current tourist attraction to visited if it's not already added, and skip it otherwise
+        if (current_node.latitude, current_node.longitude) not in visited:
+            visited.add((current_node.latitude, current_node.longitude))
+        else:
+            continue
 
-        # Iterate over all other attractions
-        for attraction in attractions:
-            # Skip if it's the same as the current attraction
-            # print([node.name for node in visited])
+        # Matches a Graph Node to an Attraction class object
+        search_node = None
 
-            if attraction[0] == current_attraction.name or attraction[0] in [node.name for node in visited]:
-            #if attraction[0] == current_attraction.name or attraction in [node for node in visited]:
-                continue
+        for node, attributes in graph.nodes(data=True):
+            if graph.nodes[node]['attraction'] == current_node.attraction:
+                search_node = node
 
-            # Calculate cost heuristic from current attraction to the selected attraction, to the end attraction
-            cost = current_attraction.cost + haversine_distance(current_attraction.latitude, current_attraction.longitude, float(attraction[2]), float(attraction[3]))
-            heuristic = haversine_heuristic(attraction, end_attraction)
-            new_node = Node(attraction[0], attraction[2], attraction[3], cost, heuristic, current_attraction)
-            print("attraction name:")
-            print(attraction[0])
-            print("attraction cost + heuristics")
-            print(cost, heuristic, cost + heuristic )
+        # Expand neighbors
+        for neighbor in graph.neighbors(search_node):
+            # Extract Graph Node attribute values
+            attraction = graph.nodes[neighbor]['attraction']
+            name = graph.nodes[neighbor]['attraction'][0]
+            latitude = graph.nodes[neighbor]['attraction'][2]
+            longitude = graph.nodes[neighbor]['attraction'][3]
+            cost = haversine_distance(start_node.latitude, start_node.longitude, latitude, longitude)  # g(n)
+            heuristic = haversine_distance(latitude, longitude, end_node.latitude, end_node.longitude)  # h(n)
+            parent = current_node
 
-
-            # Skip current attraction if it has been added to 'to_explore' already and if the existing node is cheaper
-            if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in to_explore):
-                 continue
-
-
-            if any(node.name == new_node.name and node.total_cost() <= new_node.total_cost() for node in to_explore):
-                continue
-
-            to_explore.append(new_node)
-            # print("current attraction")
-            # print(current_attraction.name)
-            # print("attraction")
-            # print(attraction)
-            # print("to_explore")
-            # print([node.name for node in to_explore])
-            # print("visited")
-            # print([node.name for node in visited])
+            # Construct a matching Attraction class object
+            neighbor_attraction = Attraction(attraction, name, latitude, longitude, cost, heuristic, parent)
+            heapq.heappush(paths_list, (neighbor_attraction.total_cost(), neighbor_attraction, path + [neighbor_attraction.attraction]))
 
     return None

@@ -1,21 +1,25 @@
 import requests
+
+import Graph
 import Pathfinding
 
 
 def main():
-    # Set the API endpoint and parameters
+    print("Welcome to the Touring Popular Tourist Attractions application!")
+    # TODO: Add more output giving description of the application
+
+    chosen_city = input("Please enter the desired city: ")  # TODO: Add error handling for wrong input types
+
+    # Google Maps Places API setup
     endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
     params = {
-        'query': 'tourist attractions in Boston',
+        'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        #'key': ''  # Need to put API key here to work!!!
-
-
+        'key': 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
     results = []
-    next_page_token = ' '
     while len(results) < 100:
         response = requests.get(endpoint, params=params)
         data = response.json()
@@ -26,9 +30,8 @@ def main():
         else:
             break
 
-    locations = []
-
-    #locations = [['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785], ['Boston Tea Party Ships & Museum', '306 Congress St, Boston, MA 02210, United States', 42.3521821, -71.0512911], ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178], ['Museum of Fine Arts', 'Boston, 465 Huntington Ave, Boston, MA 02115, United States', 42.339381, -71.094048]]
+    # List to store the tourist attractions retrieved from Google Maps API
+    attractions = []
 
     # Print the name, address, and location of each attraction
     for result in results:
@@ -36,20 +39,71 @@ def main():
         address = result['formatted_address']
         location = result['geometry']['location']
         lat, lng = location['lat'], location['lng']
-        print(f'{name}, {address}, ({lat}, {lng})')  # TODO: Probably don't need this print statement in the future
 
-        locations.append([name, address, lat, lng])
+        # Append the tourist attraction as a tuple
+        attractions.append((name, address, lat, lng))
 
-    # for i in locations:
-    #     print(i)
+    # Prints out all tourist attractions that were found for the user's desired city
+    print_attractions(attractions, chosen_city)
 
-    start_attraction = ['Public Garden', '4 Charles St, Boston, MA 02116, United States', 42.35462039999999, -71.070785]
-    #end_attraction = ['Faneuil Hall Marketplace', 'Boston, MA 02109, United States', 42.360189, -71.0551145]
-    end_attraction = ['Fenway Park', '4 Jersey St, Boston, MA 02215, United States', 42.3466764, -71.0972178]
-    #end_attraction = ['New England Aquarium', '1 Central Wharf, Boston, MA 02110, United States', 42.3592478, -71.0491475]
+    # TODO: Figure out how to break out of this while loop once a valid start_attraction has been found; same applies for end_attraction
+    # TODO: Set start_attraction to be the value in attractions that matches it
+    while True:
+        start_attraction = input("Choose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
+        input_result = valid_input(attractions, start_attraction)
 
-    path = Pathfinding.a_star(start_attraction, end_attraction, locations)
-    print(path)
+        if input_result == 1:
+            print_attractions(attractions, chosen_city)
+            break
+        elif input_result == 0:
+            print("Couldn't not find the start attraction. Please try again (enter !attractions to bring up the list of attractions again): ")
+
+    while True:
+        end_attraction = input("Choose an attraction that you want to end your route at (enter !attractions to bring up the list of attractions again): ")
+        input_result = valid_input(attractions, end_attraction)
+
+        if input_result != 0 and input_result == 1:
+            print_attractions(attractions, chosen_city)
+            break
+        else:
+            print("Couldn't not find the end attraction. Please try again (enter !attractions to bring up the list of attractions again): ")
+
+    # TODO: Actual attractions list should be whatever the user chooses from the full list of possible tourist attractions
+    # Create a NetworkX Graph
+    loc_graph = Graph.create_graph(attractions)
+
+    # TODO: Can be deleted; only for testing purposes
+    # print("Is it connected?")
+    # print(nx.is_connected(loc_graph))
+
+    # TODO: Can be deleted; only for testing purposes
+    # Graph.visualize_graph(loc_graph, save_path='graph.png')
+    # Graph.print_graph(loc_graph)
+
+    path = Pathfinding.a_star(start_attraction, end_attraction, loc_graph)
+    print(path)  # TODO: Path will be used in later code to draw the path on an actual map
+
+
+def print_attractions(attractions, chosen_city):
+    print(f"Showing all tourist attractions for: {chosen_city}\n")
+
+    for attraction in attractions:
+        print(f"{attraction[0]}, Address: {attraction[1]}")
+
+
+def valid_attraction(attractions, target_attraction):  # TODO: This is not actually mapping the proper input and attraction
+    for attraction in attractions:
+        if attraction[0] == target_attraction:
+            return True
+    return False
+
+
+def valid_input(attractions, input_message):  # TODO: Might be overcomplicating with the 3 different results
+    if input_message.startswith("!"):
+        return 1
+    elif valid_attraction(attractions, input_message):
+        return 2
+    return 0
 
 
 if __name__ == "__main__":
