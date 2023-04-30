@@ -2,6 +2,10 @@ import requests
 
 import Graph
 import Pathfinding
+import Graph
+import Pathfinding
+import folium
+
 
 
 def main():
@@ -15,7 +19,7 @@ def main():
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
+        'key': 'AIzaSyA - 4Ypolly0S42lw0L_BJAFRlS1kQ9WWCg'  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
@@ -102,6 +106,113 @@ def main():
 
     path = Pathfinding.a_star(start_attraction, end_attraction, loc_graph)
     print(path)  # TODO: Path will be used in later code to draw the path on an actual map
+
+    #############################
+    # Gives one line
+    # Create a map object centered at the first attraction with all the attractions
+    map_center = (start_attraction[2], start_attraction[3])
+    m = folium.Map(location=map_center, zoom_start=13)
+
+    # Add markers for each attraction
+    for attraction in attractions:
+        name, address, lat, lng = attraction
+        popup_text = f'{name}\n{address}'
+        folium.Marker(location=(lat, lng), popup=popup_text).add_to(m)
+
+    # # Add a polyline for the path, this will add lines
+    # path_points = []
+    # for attraction in path:
+    #     name, address, lat, lng = attraction
+    #     path_points.append((lat, lng))
+    # folium.PolyLine(path_points, color='red').add_to(m)
+
+    # Display the map
+    m.save('map2.html')
+    m
+    # end of one line
+    ##############################################
+
+    import googlemaps
+    import datetime
+    from datetime import timedelta
+
+    # Define your Google Maps API key
+    gmaps_key = ''  # add your key
+    gmaps = googlemaps.Client(key='AIzaSyA - 4Ypolly0S42lw0L_BJAFRlS1kQ9WWCg')
+
+    def path_to_locations(path):
+        locations = []
+        for place in path:
+            location_str = f"{place[0]}, {place[1]}, {place[2]}, {place[3]}"
+            locations.append(location_str)
+        return locations
+
+    locations = path_to_locations(path)
+    print(locations)
+
+    def get_lonlat(locations):
+        lonlat = []
+        for location in locations:
+            latlon_str = location.split(', ')[-2:]
+            latlon = tuple(float(coord) for coord in latlon_str)
+            lonlat.append(latlon)
+        return lonlat
+
+    lonlatTuples = get_lonlat(locations)
+    print(lonlatTuples)
+    #
+    # locations = ['Faneuil Hall Marketplace, Boston, MA 02109, United States, 42.360189, -71.0551145', 'Old State House, 206 Washington St, Boston, MA 02109, United States, 42.3587352, -71.05745399999999', 'Museum of African American History, 46 Joy St, Boston, MA 02114, United States, 42.36001419999999, -71.0652206']
+
+    origin = locations[0]
+    destination = locations[-1]
+
+    # waypoints = locations,
+
+    results = gmaps.directions(origin=locations[0],
+                               destination=locations[-1],
+                               waypoints=locations,
+                               optimize_waypoints=True,
+                               departure_time=datetime.datetime.now() + timedelta(hours=1))
+
+    print("direction result")
+    print(results)
+
+    marker_points = []
+    waypoints = []
+
+    # extract the location points from the previous directions function
+
+    for leg in results[0]["legs"]:
+        leg_start_loc = leg["start_location"]
+        marker_points.append(f'{leg_start_loc["lat"]},{leg_start_loc["lng"]}')
+        for step in leg["steps"]:
+            end_loc = step["end_location"]
+            waypoints.append(f'{end_loc["lat"]},{end_loc["lng"]}')
+    last_stop = results[0]["legs"][-1]["end_location"]
+    marker_points.append(f'{last_stop["lat"]},{last_stop["lng"]}')
+
+    markers = ["color:blue|size:mid|label:" + chr(65 + i) + "|"
+               + r for i, r in enumerate(marker_points)]
+    print("markers")
+    print(markers)
+    print("marker points")
+    print(marker_points)
+    print("way points")
+    print(waypoints)
+    # center=waypoints[0],
+    result_map = gmaps.static_map(
+        center="Faneuil Hall Marketplace, Boston, MA",
+        scale=2,
+        zoom=14,
+        size=[640, 640],
+        format="jpg",
+        maptype="roadmap",
+        markers=markers,
+        path="color:0x0000ff|weight:2|" + "|".join(waypoints))
+
+    with open("boston.jpg", "wb") as img:
+        for chunk in result_map:
+            img.write(chunk)
 
 
 """Prints all the tourist attractions for a given city.
