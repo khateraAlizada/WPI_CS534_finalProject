@@ -19,7 +19,7 @@ def main():
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        'key': 'AIzaSyA - 4Ypolly0S42lw0L_BJAFRlS1kQ9WWCg'  # TODO: Need to put your own API key here for the program to work!!!
+        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
@@ -138,7 +138,7 @@ def main():
 
     # Define your Google Maps API key
     gmaps_key = ''  # add your key
-    gmaps = googlemaps.Client(key='AIzaSyA - 4Ypolly0S42lw0L_BJAFRlS1kQ9WWCg')
+    gmaps = googlemaps.Client(key='')
 
     def path_to_locations(path):
         locations = []
