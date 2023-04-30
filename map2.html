@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_3affd714e5c281a5ae58dfd00b95e84d {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_3affd714e5c281a5ae58dfd00b95e84d" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_3affd714e5c281a5ae58dfd00b95e84d = L.map(
+                "map_3affd714e5c281a5ae58dfd00b95e84d",
+                {
+                    center: [42.3540639, -71.0700921],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 13,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_9a9da07da6de17f936e5e8820960bbe2 = L.tileLayer(
+                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+            var marker_f8e16f035bba13cc0448839199b08cb5 = L.marker(
+                [42.3540639, -71.0700921],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_d5c6cea936533462888cc1347920adb6 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a4765df79e38b1bceaf067f7d5e078a1 = $(`<div id="html_a4765df79e38b1bceaf067f7d5e078a1" style="width: 100.0%; height: 100.0%;">Public Garden Boston, MA 02116, United States</div>`)[0];
+                popup_d5c6cea936533462888cc1347920adb6.setContent(html_a4765df79e38b1bceaf067f7d5e078a1);
+            
+        
+
+        marker_f8e16f035bba13cc0448839199b08cb5.bindPopup(popup_d5c6cea936533462888cc1347920adb6)
+        ;
+
+        
+    
+    
+            var marker_cd76012946fbba4de4198ba88cf22d1c = L.marker(
+                [42.367714, -71.0709771],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_31335cac8220b1776addc3bb6d728ff2 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_6c51715edbb5f3d07ba1749595e2705e = $(`<div id="html_6c51715edbb5f3d07ba1749595e2705e" style="width: 100.0%; height: 100.0%;">Museum of Science Museum Of Science Driveway, Boston, MA 02114, United States</div>`)[0];
+                popup_31335cac8220b1776addc3bb6d728ff2.setContent(html_6c51715edbb5f3d07ba1749595e2705e);
+            
+        
+
+        marker_cd76012946fbba4de4198ba88cf22d1c.bindPopup(popup_31335cac8220b1776addc3bb6d728ff2)
+        ;
+
+        
+    
+    
+            var marker_1be541485aee5089a26d7e8127d49844 = L.marker(
+                [42.3592478, -71.0491475],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_2069aea86d423a8073d7168419ae0ece = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_7cd242a67f794fbd356ecfd8371f2b12 = $(`<div id="html_7cd242a67f794fbd356ecfd8371f2b12" style="width: 100.0%; height: 100.0%;">New England Aquarium 1 Central Wharf, Boston, MA 02110, United States</div>`)[0];
+                popup_2069aea86d423a8073d7168419ae0ece.setContent(html_7cd242a67f794fbd356ecfd8371f2b12);
+            
+        
+
+        marker_1be541485aee5089a26d7e8127d49844.bindPopup(popup_2069aea86d423a8073d7168419ae0ece)
+        ;
+
+        
+    
+    
+            var marker_c8d5535d56622715bfb9e16ec3f16df7 = L.marker(
+                [42.3521821, -71.0512911],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_5bfd2a45e70e86fe2baa258cfa30b3c5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1954bcee3665c397f29c74f37ce40cd9 = $(`<div id="html_1954bcee3665c397f29c74f37ce40cd9" style="width: 100.0%; height: 100.0%;">Boston Tea Party Ships & Museum 306 Congress St, Boston, MA 02210, United States</div>`)[0];
+                popup_5bfd2a45e70e86fe2baa258cfa30b3c5.setContent(html_1954bcee3665c397f29c74f37ce40cd9);
+            
+        
+
+        marker_c8d5535d56622715bfb9e16ec3f16df7.bindPopup(popup_5bfd2a45e70e86fe2baa258cfa30b3c5)
+        ;
+
+        
+    
+    
+            var marker_36309d555ff1e8781a37601e2d12842c = L.marker(
+                [42.339381, -71.094048],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_c03dc22566be9ea146b524efe04a54af = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_63f2f8838eaed8bd35933dd0da86c139 = $(`<div id="html_63f2f8838eaed8bd35933dd0da86c139" style="width: 100.0%; height: 100.0%;">Museum of Fine Arts, Boston 465 Huntington Ave, Boston, MA 02115, United States</div>`)[0];
+                popup_c03dc22566be9ea146b524efe04a54af.setContent(html_63f2f8838eaed8bd35933dd0da86c139);
+            
+        
+
+        marker_36309d555ff1e8781a37601e2d12842c.bindPopup(popup_c03dc22566be9ea146b524efe04a54af)
+        ;
+
+        
+    
+    
+            var marker_b2affe3836607cc6673dabc41260d860 = L.marker(
+                [42.3550897, -71.0657256],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_453fa6a0b5a7c48ed4790bd7978c56e7 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_93aed1f32d358f0e60b6fdd659e22105 = $(`<div id="html_93aed1f32d358f0e60b6fdd659e22105" style="width: 100.0%; height: 100.0%;">Boston Common 139 Tremont St, Boston, MA 02111, United States</div>`)[0];
+                popup_453fa6a0b5a7c48ed4790bd7978c56e7.setContent(html_93aed1f32d358f0e60b6fdd659e22105);
+            
+        
+
+        marker_b2affe3836607cc6673dabc41260d860.bindPopup(popup_453fa6a0b5a7c48ed4790bd7978c56e7)
+        ;
+
+        
+    
+    
+            var marker_b5d2b97afa9b9b60a41dec7751d51a6a = L.marker(
+                [42.3381442, -71.0990577],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_d4d79159d954fcd2c409f0104092573c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_47fd130ffd2838381c7ac154970fe9f3 = $(`<div id="html_47fd130ffd2838381c7ac154970fe9f3" style="width: 100.0%; height: 100.0%;">Isabella Stewart Gardner Museum 25 Evans Way, Boston, MA 02115, United States</div>`)[0];
+                popup_d4d79159d954fcd2c409f0104092573c.setContent(html_47fd130ffd2838381c7ac154970fe9f3);
+            
+        
+
+        marker_b5d2b97afa9b9b60a41dec7751d51a6a.bindPopup(popup_d4d79159d954fcd2c409f0104092573c)
+        ;
+
+        
+    
+    
+            var marker_ffd028b6b66965c9d6f41b9c602c9d1d = L.marker(
+                [42.3587352, -71.05745399999999],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_625e1245c62b60390352fd344df543a1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_36d130d9326497c5afb46783b65b2fb8 = $(`<div id="html_36d130d9326497c5afb46783b65b2fb8" style="width: 100.0%; height: 100.0%;">Old State House 206 Washington St, Boston, MA 02109, United States</div>`)[0];
+                popup_625e1245c62b60390352fd344df543a1.setContent(html_36d130d9326497c5afb46783b65b2fb8);
+            
+        
+
+        marker_ffd028b6b66965c9d6f41b9c602c9d1d.bindPopup(popup_625e1245c62b60390352fd344df543a1)
+        ;
+
+        
+    
+    
+            var marker_f2f593e3053d1be89c4bbba720309d5d = L.marker(
+                [42.3466764, -71.0972178],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_ddf5c299f9d8ee5489c02ffb4a79990e = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_181ab9dde4b8f3efd6f3a8da658afadd = $(`<div id="html_181ab9dde4b8f3efd6f3a8da658afadd" style="width: 100.0%; height: 100.0%;">Fenway Park 4 Jersey St, Boston, MA 02215, United States</div>`)[0];
+                popup_ddf5c299f9d8ee5489c02ffb4a79990e.setContent(html_181ab9dde4b8f3efd6f3a8da658afadd);
+            
+        
+
+        marker_f2f593e3053d1be89c4bbba720309d5d.bindPopup(popup_ddf5c299f9d8ee5489c02ffb4a79990e)
+        ;
+
+        
+    
+    
+            var marker_d04e6454a4ad35d6c0ceed3dffe426ac = L.marker(
+                [42.3378699, -71.0125206],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_4f15dee8a71d908afbf4dcc809c99315 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c6795d35cc41720a77ad0653ca896054 = $(`<div id="html_c6795d35cc41720a77ad0653ca896054" style="width: 100.0%; height: 100.0%;">Castle Island 2010 William J Day Blvd, Boston, MA 02127, United States</div>`)[0];
+                popup_4f15dee8a71d908afbf4dcc809c99315.setContent(html_c6795d35cc41720a77ad0653ca896054);
+            
+        
+
+        marker_d04e6454a4ad35d6c0ceed3dffe426ac.bindPopup(popup_4f15dee8a71d908afbf4dcc809c99315)
+        ;
+
+        
+    
+    
+            var marker_bc5945b5985b6ca3d5039b9a386d0d85 = L.marker(
+                [42.3763541, -71.0607764],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_88bc05a3e15227a30b25c4466f5783fd = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_b49ee214283f935a65ff57c8a59491ad = $(`<div id="html_b49ee214283f935a65ff57c8a59491ad" style="width: 100.0%; height: 100.0%;">Bunker Hill Monument Monument Sq, Charlestown, MA 02129, United States</div>`)[0];
+                popup_88bc05a3e15227a30b25c4466f5783fd.setContent(html_b49ee214283f935a65ff57c8a59491ad);
+            
+        
+
+        marker_bc5945b5985b6ca3d5039b9a386d0d85.bindPopup(popup_88bc05a3e15227a30b25c4466f5783fd)
+        ;
+
+        
+    
+    
+            var marker_bb000e5fd940da0cb99c4ec2f6d63645 = L.marker(
+                [42.363725, -71.0536561],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_89317a10b9edbef2a24033bac1ef1241 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d4a0e0c9aa708b58fe9a475ca14b01b8 = $(`<div id="html_d4a0e0c9aa708b58fe9a475ca14b01b8" style="width: 100.0%; height: 100.0%;">The Paul Revere House 19 N Square, Boston, MA 02113, United States</div>`)[0];
+                popup_89317a10b9edbef2a24033bac1ef1241.setContent(html_d4a0e0c9aa708b58fe9a475ca14b01b8);
+            
+        
+
+        marker_bb000e5fd940da0cb99c4ec2f6d63645.bindPopup(popup_89317a10b9edbef2a24033bac1ef1241)
+        ;
+
+        
+    
+    
+            var marker_ad2ccb51b022f0f0812534e2033aca7f = L.marker(
+                [42.3519736, -71.04968389999999],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_afce04b44608b653448193697917c862 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0d1f9a0fa1aab91138cb42053dd37a6c = $(`<div id="html_0d1f9a0fa1aab91138cb42053dd37a6c" style="width: 100.0%; height: 100.0%;">Boston Children's Museum 308 Congress St, Boston, MA 02210, United States</div>`)[0];
+                popup_afce04b44608b653448193697917c862.setContent(html_0d1f9a0fa1aab91138cb42053dd37a6c);
+            
+        
+
+        marker_ad2ccb51b022f0f0812534e2033aca7f.bindPopup(popup_afce04b44608b653448193697917c862)
+        ;
+
+        
+    
+    
+            var marker_9cf2df6a56add7ad6737424de45cd9c0 = L.marker(
+                [42.3556187, -71.0788876],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_24e91e1a2a0e80495e20676753d77024 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a5add21681b0b35caaca1934703d87b5 = $(`<div id="html_a5add21681b0b35caaca1934703d87b5" style="width: 100.0%; height: 100.0%;">Charles River Esplanade Charles River, Esplanade, Boston, MA 02116, United States</div>`)[0];
+                popup_24e91e1a2a0e80495e20676753d77024.setContent(html_a5add21681b0b35caaca1934703d87b5);
+            
+        
+
+        marker_9cf2df6a56add7ad6737424de45cd9c0.bindPopup(popup_24e91e1a2a0e80495e20676753d77024)
+        ;
+
+        
+    
+    
+            var marker_a2d0f45cbf480e58c81da6d1992fdf5a = L.marker(
+                [42.3587627, -71.0572023],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_53ed61034578f5bbfe95b63f5d582d6a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5e5852b36b8ff7bb1573b8bcf99139cb = $(`<div id="html_5e5852b36b8ff7bb1573b8bcf99139cb" style="width: 100.0%; height: 100.0%;">Boston Massacre Site Corner of State and, Congress St, Boston, MA 02109, United States</div>`)[0];
+                popup_53ed61034578f5bbfe95b63f5d582d6a.setContent(html_5e5852b36b8ff7bb1573b8bcf99139cb);
+            
+        
+
+        marker_a2d0f45cbf480e58c81da6d1992fdf5a.bindPopup(popup_53ed61034578f5bbfe95b63f5d582d6a)
+        ;
+
+        
+    
+    
+            var marker_5d97ed2b52e89c94fed0514bbebef6e8 = L.marker(
+                [42.3609921, -71.0516339],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_de26830ade02abca82daaf92668ca5a7 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0b226dca0685e2697a3c25ad97970e9a = $(`<div id="html_0b226dca0685e2697a3c25ad97970e9a" style="width: 100.0%; height: 100.0%;">Christopher Columbus Waterfront Park 100 Atlantic Ave, Boston, MA 02110, United States</div>`)[0];
+                popup_de26830ade02abca82daaf92668ca5a7.setContent(html_0b226dca0685e2697a3c25ad97970e9a);
+            
+        
+
+        marker_5d97ed2b52e89c94fed0514bbebef6e8.bindPopup(popup_de26830ade02abca82daaf92668ca5a7)
+        ;
+
+        
+    
+    
+            var marker_85eaae5c195ebb3572bb7da9105b8f99 = L.marker(
+                [42.354021, -71.069642],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_d46adfa3bbd564700f4c0e31738b449b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_31838dd46ba66e1dbfafd03e919762ee = $(`<div id="html_31838dd46ba66e1dbfafd03e919762ee" style="width: 100.0%; height: 100.0%;">Swan Boats 4 Charles St, Boston, MA 02116, United States</div>`)[0];
+                popup_d46adfa3bbd564700f4c0e31738b449b.setContent(html_31838dd46ba66e1dbfafd03e919762ee);
+            
+        
+
+        marker_85eaae5c195ebb3572bb7da9105b8f99.bindPopup(popup_d46adfa3bbd564700f4c0e31738b449b)
+        ;
+
+        
+    
+    
+            var marker_42800b159cd80aac5543f1e521caa88c = L.marker(
+                [42.360189, -71.0551145],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_eeda0b5447e0e04b9ab52fe49d878a88 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_916f5b403681c51e4d2cdfe163ed6b80 = $(`<div id="html_916f5b403681c51e4d2cdfe163ed6b80" style="width: 100.0%; height: 100.0%;">Faneuil Hall Marketplace Boston, MA 02109, United States</div>`)[0];
+                popup_eeda0b5447e0e04b9ab52fe49d878a88.setContent(html_916f5b403681c51e4d2cdfe163ed6b80);
+            
+        
+
+        marker_42800b159cd80aac5543f1e521caa88c.bindPopup(popup_eeda0b5447e0e04b9ab52fe49d878a88)
+        ;
+
+        
+    
+    
+            var marker_f9f16ef215a588e38206135943c80170 = L.marker(
+                [42.3541519, -71.05141069999999],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_cdab5548a918b2a347c11ac9ad1bee2c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_eed1a2b3cea1fbcf1aa94f4a354ab014 = $(`<div id="html_eed1a2b3cea1fbcf1aa94f4a354ab014" style="width: 100.0%; height: 100.0%;">Observation Deck at Independence Wharf 470 Atlantic Ave, Boston, MA 02210, United States</div>`)[0];
+                popup_cdab5548a918b2a347c11ac9ad1bee2c.setContent(html_eed1a2b3cea1fbcf1aa94f4a354ab014);
+            
+        
+
+        marker_f9f16ef215a588e38206135943c80170.bindPopup(popup_cdab5548a918b2a347c11ac9ad1bee2c)
+        ;
+
+        
+    
+    
+            var marker_218d6bb5baf083053aa44489b90012eb = L.marker(
+                [42.36001419999999, -71.0652206],
+                {}
+            ).addTo(map_3affd714e5c281a5ae58dfd00b95e84d);
+        
+    
+        var popup_ba4d8bcaddce151ca00ef757826b5462 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_1d814680876fae13312db170fd4e5eb0 = $(`<div id="html_1d814680876fae13312db170fd4e5eb0" style="width: 100.0%; height: 100.0%;">Museum of African American History 46 Joy St, Boston, MA 02114, United States</div>`)[0];
+                popup_ba4d8bcaddce151ca00ef757826b5462.setContent(html_1d814680876fae13312db170fd4e5eb0);
+            
+        
+
+        marker_218d6bb5baf083053aa44489b90012eb.bindPopup(popup_ba4d8bcaddce151ca00ef757826b5462)
+        ;
+
+        
+    
+</script>
+</html>
