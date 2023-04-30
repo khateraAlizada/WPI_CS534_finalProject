@@ -92,6 +92,8 @@ def main():
             chosen_attractions.append(find_attraction(attractions, chosen_attraction))  # TODO: Need to add check that it isn't the selected start/end attraction
         else:
             print("Valid input not detected. Try again!")
+        chosen_attraction = input(
+            "Next, enter the attractions that interest you. (type !all to select all attractions, and !attractions to bring up the list of attractions again. Type !done to finish): ")
 
     # Create a NetworkX Graph
     loc_graph = Graph.create_graph(chosen_attractions)
