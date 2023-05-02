@@ -139,9 +139,10 @@ def main():
     from datetime import timedelta
 
     # Define your Google Maps API key
-    gmaps_key = ''  # add your key
+
     gmaps = googlemaps.Client(key='')
 
+    # The function path_to_locations modifies the path to a format that can be used in directions api
     def path_to_locations(path):
         locations = []
         for place in path:
@@ -152,6 +153,9 @@ def main():
     locations = path_to_locations(path)
     print(locations)
 
+    # We could also use list of longitude and latitude
+    # to display paths
+    # get_lonlat creates gets longitude and latitude.
     def get_lonlat(locations):
         lonlat = []
         for location in locations:
@@ -163,12 +167,11 @@ def main():
     lonlatTuples = get_lonlat(locations)
     print(lonlatTuples)
     #
-    # locations = ['Faneuil Hall Marketplace, Boston, MA 02109, United States, 42.360189, -71.0551145', 'Old State House, 206 Washington St, Boston, MA 02109, United States, 42.3587352, -71.05745399999999', 'Museum of African American History, 46 Joy St, Boston, MA 02114, United States, 42.36001419999999, -71.0652206']
 
     origin = locations[0]
     destination = locations[-1]
 
-    # waypoints = locations,
+    #waypoints = lonlatTuples,
 
     results = gmaps.directions(origin=locations[0],
                                destination=locations[-1],
@@ -212,7 +215,7 @@ def main():
         markers=markers,
         path="color:0x0000ff|weight:2|" + "|".join(waypoints))
 
-    with open("boston.jpg", "wb") as img:
+    with open("bostonlonlat.jpg", "wb") as img:
         for chunk in result_map:
             img.write(chunk)
 
