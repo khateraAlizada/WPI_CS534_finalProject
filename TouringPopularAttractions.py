@@ -210,7 +210,7 @@ def main():
     print(waypoints)
     # center=waypoints[0],
     result_map = gmaps.static_map(
-        center="Faneuil Hall Marketplace, Boston, MA",
+        center=locations[0],
         scale=2,
         zoom=14,
         size=[640, 640],
@@ -219,7 +219,7 @@ def main():
         markers=markers,
         path="color:0x0000ff|weight:2|" + "|".join(waypoints))
 
-    with open("bostonlonlat.jpg", "wb") as img:
+    with open("map.jpg", "wb") as img:
         for chunk in result_map:
             img.write(chunk)
 
