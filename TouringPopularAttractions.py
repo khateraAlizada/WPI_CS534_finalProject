@@ -15,7 +15,7 @@ def main():
     chosen_city = input("Please enter the desired city: ")  # TODO: Add error handling for wrong input types
 
     # Google Maps Places API setup
-    endpoint = 'https://maps.googleapis.com/maps/api/place/textsearch/json'
+    endpoint = ''
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
@@ -140,7 +140,7 @@ def main():
 
     # Define your Google Maps API key
 
-    gmaps = googlemaps.Client(key='')
+    gmaps = googlemaps.Client(key='AIzaSyA - 4Ypolly0S42lw0L_BJAFRlS1kQ9WWCg')
 
     # The function path_to_locations modifies the path to a format that can be used in directions api
     def path_to_locations(path):
