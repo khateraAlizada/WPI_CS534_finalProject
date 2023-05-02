@@ -2,13 +2,12 @@ import requests
 
 import Graph
 import Pathfinding
-import Graph
-import Pathfinding
 import folium
 
 
-
 def main():
+    API_KEY = 'AIzaSyCHVwZYSee6FofPyTYNwGnEap6nGe-D24s'
+
     print("\nWelcome to the Touring Popular Tourist Attractions application!\n")
     # TODO: Add more output giving description of the application
 
@@ -19,7 +18,8 @@ def main():
     params = {
         'query': 'tourist attractions in ' + chosen_city,
         'type': 'tourist_attraction',
-        'key': ''  # TODO: Need to put your own API key here for the program to work!!!
+        'key': API_KEY
+        # TODO: Need to put your own API key here for the program to work!!!
     }
 
     # Send the API request and parse the response
@@ -51,7 +51,8 @@ def main():
     print_attractions(attractions, chosen_city)
 
     while True:
-        start_attraction = input("\nChoose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
+        start_attraction = input(
+            "\nChoose an attraction that you want to start your route at (enter !attractions to bring up the list of attractions again): ")
 
         if start_attraction == "!attractions":
             print_attractions(attractions, chosen_city)
@@ -61,10 +62,11 @@ def main():
             start_attraction = find_attraction(attractions, start_attraction)
             break
         else:
-            print("Couldn't not find the end attraction. Please try again.")
+            print("Couldn't not find the start attraction. Please try again.")
 
     while True:
-        end_attraction = input("\nChoose an attraction that you want to end your route at (enter !attractions to bring up the list of attractions again): ")
+        end_attraction = input(
+            "\nChoose an attraction that you want to end your route at (enter !attractions to bring up the list of attractions again): ")
 
         if end_attraction == "!attractions":
             print_attractions(attractions, chosen_city)
@@ -78,7 +80,8 @@ def main():
 
     chosen_attractions = []
 
-    chosen_attraction = input("Next, enter the attractions that interest you. (type !all to select all attractions, and !attractions to bring up the list of attractions again. Type !done to finish): ")
+    chosen_attraction = input(
+        "Next, enter the attractions that interest you. (type !all to select all attractions, and !attractions to bring up the list of attractions again. Type !done to finish): ")
 
     while chosen_attraction != "!done":
         if chosen_attraction == "!attractions":
@@ -89,7 +92,8 @@ def main():
         elif chosen_attraction == "!list":
             print_chosen_attractions(start_attraction, end_attraction, chosen_attractions)
         elif valid_attraction(attractions, chosen_attraction):
-            chosen_attractions.append(find_attraction(attractions, chosen_attraction))  # TODO: Need to add check that it isn't the selected start/end attraction
+            chosen_attractions.append(find_attraction(attractions,
+                                                      chosen_attraction))  # TODO: Need to add check that it isn't the selected start/end attraction
         else:
             print("Valid input not detected. Try again!")
         chosen_attraction = input(
@@ -140,7 +144,7 @@ def main():
 
     # Define your Google Maps API key
 
-    gmaps = googlemaps.Client(key='')
+    gmaps = googlemaps.Client(key=API_KEY)
 
     # The function path_to_locations modifies the path to a format that can be used in directions api
     def path_to_locations(path):
@@ -171,7 +175,7 @@ def main():
     origin = locations[0]
     destination = locations[-1]
 
-    #waypoints = lonlatTuples,
+    # waypoints = lonlatTuples,
 
     results = gmaps.directions(origin=locations[0],
                                destination=locations[-1],
