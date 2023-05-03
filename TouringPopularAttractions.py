@@ -176,10 +176,11 @@ def main():
     destination = locations[-1]
 
     # waypoints = lonlatTuples,
+    # waypoints = locations,
 
     results = gmaps.directions(origin=locations[0],
                                destination=locations[-1],
-                               waypoints=locations,
+                               waypoints=lonlatTuples,
                                optimize_waypoints=True,
                                departure_time=datetime.datetime.now() + timedelta(hours=1))
 
